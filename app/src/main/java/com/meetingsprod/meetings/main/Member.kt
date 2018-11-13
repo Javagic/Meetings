@@ -7,4 +7,4 @@
 
 package com.meetingsprod.meetings.main
 
-data class Member(val name:String,val position:String)
+data class Member(var name: String = "", var position: String = "")

@@ -25,7 +25,6 @@ class MeetingService : JobService() {
         private fun createJobInfo(context: Context): JobInfo =
             JobInfo.Builder(MEETINGS_JOB_ID, ComponentName(context, MeetingService::class.java))
                 .setPeriodic(REPEAT_MILLIS)
-                .setOverrideDeadline(REPEAT_MILLIS)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
                 .setPersisted(true)
                 .build()

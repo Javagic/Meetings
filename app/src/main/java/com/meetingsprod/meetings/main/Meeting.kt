@@ -1,13 +1,13 @@
-
 package com.meetingsprod.meetings.main
 
 data class Meeting(
-    val name: String,
-    val description: String,
-    val startDate: String,
-    val endDate: String,
-    val members: List<Member>,
-    val priority: Priority
+    var name: String = "",
+    var description: String = "",
+    var startDate: String = "",
+    var endDate: String = "",
+    var members: List<Member> = ArrayList(),
+    var priority: String = ""
+
 )
 
 enum class Priority {
