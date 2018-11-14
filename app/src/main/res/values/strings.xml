@@ -6,6 +6,6 @@
     <string name="hint_password">Enter password</string>
     <string name="login">Login</string>
     <string name="wrong_password">Wrong password</string>
-    <string name="notification_new_meting">You have new meeting! %1$s</string>
+    <string name="notification_new_meting">You have new meeting! %1$d</string>
     <string name="notification_content">Tap to view meetings</string>
 </resources>
