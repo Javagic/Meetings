@@ -14,14 +14,14 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme" tools:ignore="GoogleAppIndexingWarning">
 
-        <receiver android:name=".main.MeetingsReceiver">
+        <receiver android:name=".main.service.MeetingsReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
 
         <service
-                android:name=".main.MeetingService"
+                android:name=".main.service.MeetingService"
                 android:permission="android.permission.BIND_JOB_SERVICE"/>
 
 

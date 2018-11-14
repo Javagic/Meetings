@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.meetingsprod.meetings.R
+import com.meetingsprod.meetings.main.data.pojo.Meeting
 
 class MeetingsAdapter : RecyclerView.Adapter<MeetingsAdapter.ViewHolder>() {
     var data: MutableList<Meeting> = ArrayList()

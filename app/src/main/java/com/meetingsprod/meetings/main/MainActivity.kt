@@ -14,6 +14,13 @@ import android.support.v7.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.meetingsprod.meetings.R
+import com.meetingsprod.meetings.main.App.Companion.database
+import com.meetingsprod.meetings.main.App.Companion.meetingsDao
+import com.meetingsprod.meetings.main.data.pojo.Meeting
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 
 
 class MainActivity : AppCompatActivity() {
@@ -21,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     private val firestore: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
     private val recyclerView by lazy { findViewById<RecyclerView>(R.id.rvMeetings) }
     private val adapter = MeetingsAdapter()
+    private val disposable = CompositeDisposable()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +42,17 @@ class MainActivity : AppCompatActivity() {
                     it.documents.toMutableList().map {
                         it.toObject(Meeting::class.java)!!
                     }
-                        .also { adapter.data = it.toMutableList() }
+                        .also {
+                            Observable.just(it)
+                                .observeOn(Schedulers.io())
+                                .subscribe {
+                                    database.runInTransaction {
+                                        it.forEach {
+                                            meetingsDao.insert(it)
+                                        }
+                                    }
+                                }
+                        }
                 }
             }
         }
@@ -42,7 +60,15 @@ class MainActivity : AppCompatActivity() {
 
     public override fun onStart() {
         super.onStart()
-
+        disposable.add(
+            meetingsDao.allFlowable().observeOn(AndroidSchedulers.mainThread()).subscribe {
+                adapter.data = it.toMutableList()
+            }
+        )
     }
 
+    override fun onStop() {
+        super.onStop()
+        disposable.clear()
+    }
 }
