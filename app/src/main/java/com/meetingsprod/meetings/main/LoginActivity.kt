@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.design.widget.TextInputLayout
 import android.support.v7.app.AppCompatActivity
 import android.widget.Button
+import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 import com.meetingsprod.meetings.R
 
@@ -22,12 +23,13 @@ class LoginActivity : AppCompatActivity() {
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
                         startActivity(Intent(this, MainActivity::class.java))
-                    } else {
-                        loginField.error = getString(R.string.wrong_password)
                     }
                 }
                 .addOnFailureListener(this) {
-                    loginField.error = getString(R.string.wrong_password)
+                    loginField.error = when (it) {
+                        is FirebaseNetworkException -> getString(R.string.error_connection)
+                        else -> getString(R.string.wrong_password)
+                    }
                 }
         }
     }

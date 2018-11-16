@@ -28,6 +28,6 @@ abstract class MeetingsDao {
     @Query("SELECT * FROM Meetings")
     abstract fun all(): List<Meeting>
 
-//    @Query("SELECT * FROM Meetings WHERE id = :id")
-//    abstract fun get(id: Int): Meeting?
+    @Query("SELECT * FROM Meetings WHERE name = :name")
+    abstract fun get(name: String): Meeting?
 }

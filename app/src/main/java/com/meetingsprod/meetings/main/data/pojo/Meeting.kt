@@ -5,6 +5,9 @@ import android.arch.persistence.room.TypeConverter
 import android.arch.persistence.room.TypeConverters
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.meetingsprod.meetings.main.api.Priority
+import java.util.*
+import kotlin.collections.ArrayList
 
 @Entity(tableName = "Meetings", primaryKeys = ["name"])
 @TypeConverters(MemberTypeConverter::class)
@@ -13,15 +16,28 @@ data class Meeting(
     var description: String = "",
     var startDate: String = "",
     var endDate: String = "",
-    var members: List<Member> = ArrayList(),
-    var priority: String = ""
-)
+    var members: MutableList<Member> = ArrayList(),
+    var priority: Priority = Priority.MAYBE
+) {
 
-enum class Priority {
-    EMERGENCY,
-    PLANNED,
-    MAYBE
+    fun toMap() =
+        HashMap<String, Any>().apply {
+            put("name", name)
+            put("description", description)
+            put("startDate", startDate)
+            put("endDate", endDate)
+            put("members", Gson().toJson(members))
+            put("priority", priority.toString())
+        }
+
+
+    fun clone() = Meeting(name, description, startDate, endDate, mutableListOf<Member>().apply {
+        members.forEach { add(it.clone()) }
+    }, priority)
+
+
 }
+
 
 class MemberTypeConverter {
     private val gson = Gson()
@@ -32,4 +48,10 @@ class MemberTypeConverter {
 
     @TypeConverter
     fun toJson(points: List<Member>): String = gson.toJson(points)
+
+    @TypeConverter
+    fun toPriority(value: Int?): Priority = Priority.values()[value ?: 0]
+
+    @TypeConverter
+    fun fromPriority(priority: Priority): Int = priority.ordinal
 }

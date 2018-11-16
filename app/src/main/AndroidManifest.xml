@@ -34,6 +34,8 @@
         </activity>
 
         <activity android:name=".main.MainActivity"/>
+        <activity android:name=".main.MeetingInfoActivity"/>
+        <activity android:name=".main.CreateMeetingActivity"/>
     </application>
 
 </manifest>

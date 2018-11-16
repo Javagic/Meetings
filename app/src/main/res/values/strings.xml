@@ -6,6 +6,14 @@
     <string name="hint_password">Enter password</string>
     <string name="login">Login</string>
     <string name="wrong_password">Wrong password</string>
+    <string name="error_connection">Internet connection error</string>
     <string name="notification_new_meting">You have new meeting! %1$d</string>
     <string name="notification_content">Tap to view meetings</string>
+    <string name="meeting_name">Meeting %1$s</string>
+    <string name="meeting_startDate">Starts at %1$s</string>
+    <string name="error_data">Data load error</string>
+    <string name="create_button">create</string>
+    <string name="create_error">Unable to create document</string>
+    <string name="refresh">Refresh</string>
+
 </resources>

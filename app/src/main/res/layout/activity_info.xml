@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent">
+
+    <TextView
+            android:id="@+id/titleName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="name:"
+            app:layout_constraintTop_toTopOf="parent"
+    />
+
+    <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="name"
+            app:layout_constraintTop_toBottomOf="@id/titleName"
+    />
+
+    <TextView
+            android:id="@+id/titleDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tvName"
+            android:text="Description:"
+    />
+
+    <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="tvDescription"
+            app:layout_constraintTop_toBottomOf="@id/titleDescription"
+    />
+    <TextView
+            android:id="@+id/titleStartDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="StartDate:"
+
+            app:layout_constraintTop_toBottomOf="@id/tvDescription"
+
+    />
+    <TextView
+            android:id="@+id/tvStartDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="tvStartDate"
+            app:layout_constraintTop_toBottomOf="@id/titleStartDate"
+
+    />
+    <TextView
+            android:id="@+id/titleEndDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EndDate:"
+
+            app:layout_constraintTop_toBottomOf="@id/tvStartDate"
+
+    />
+    <TextView
+            android:id="@+id/tvEndDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="tvEndDate"
+            app:layout_constraintTop_toBottomOf="@id/titleEndDate"
+
+    />
+
+    <TextView
+            android:id="@+id/titleMembers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="tvMembers"
+            android:text="Members:"
+
+            app:layout_constraintTop_toBottomOf="@id/tvEndDate"
+    />
+    <TextView
+            android:id="@+id/tvMembers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="tvMembers"
+            app:layout_constraintTop_toBottomOf="@id/titleMembers"
+    />
+    <TextView
+            android:id="@+id/titlePriority"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="tvPriority"
+            android:text="Priority:"
+            app:layout_constraintTop_toBottomOf="@id/tvMembers"
+    />
+    <TextView
+            android:id="@+id/tvPriority"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="tvPriority"
+            app:layout_constraintTop_toBottomOf="@id/titlePriority"
+    />
+</android.support.constraint.ConstraintLayout>

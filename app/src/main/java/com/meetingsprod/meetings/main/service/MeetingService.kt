@@ -23,7 +23,7 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.meetingsprod.meetings.R
 import com.meetingsprod.meetings.main.MainActivity
-import com.meetingsprod.meetings.main.MeetingsRepository
+import com.meetingsprod.meetings.main.api.MeetingsRepository
 
 class MeetingService : JobService() {
     companion object {

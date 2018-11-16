@@ -15,7 +15,7 @@ import android.widget.TextView
 import com.meetingsprod.meetings.R
 import com.meetingsprod.meetings.main.data.pojo.Meeting
 
-class MeetingsAdapter : RecyclerView.Adapter<MeetingsAdapter.ViewHolder>() {
+class MeetingsAdapter(val action: (String) -> Unit) : RecyclerView.Adapter<MeetingsAdapter.ViewHolder>() {
     var data: MutableList<Meeting> = ArrayList()
         set(value) {
             this.data.clear()
@@ -28,6 +28,7 @@ class MeetingsAdapter : RecyclerView.Adapter<MeetingsAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.bind(data[position])
+        viewHolder.itemView.setOnClickListener { action(data[position].name) }
     }
 
     override fun getItemCount(): Int = data.size
@@ -35,9 +36,12 @@ class MeetingsAdapter : RecyclerView.Adapter<MeetingsAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name = itemView.findViewById<TextView>(R.id.name)
+        val startDate = itemView.findViewById<TextView>(R.id.tvStartDate)
 
         fun bind(meeting: Meeting) {
-            name.text = meeting.name
+            name.text = itemView.context.getString(R.string.meeting_name, meeting.name)
+            startDate.text = itemView.context.getString(R.string.meeting_startDate, meeting.startDate)
+
         }
     }
 }
