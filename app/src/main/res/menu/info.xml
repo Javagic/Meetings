@@ -2,10 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
     <item
             android:id="@+id/refresh"
-            android:showAsAction="always"
             android:icon="@drawable/ic_delete"
-            android:title="@string/refresh"
-
+            android:title="@string/delete_title"
             tools:ignore="AppCompatResource"/>
 
 </menu>

@@ -1,9 +1,3 @@
-/*
- Created by Ilya Reznik
- reznikid@altarix.ru
- skype be3bapuahta
- on 11.11.18 18:52
- */
 
 package com.meetingsprod.meetings.main.service
 
@@ -22,8 +16,10 @@ import android.support.v4.app.NotificationCompat
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.meetingsprod.meetings.R
-import com.meetingsprod.meetings.main.MainActivity
+import com.meetingsprod.meetings.main.App.Companion.database
+import com.meetingsprod.meetings.main.view.MainActivity
 import com.meetingsprod.meetings.main.api.MeetingsRepository
+import io.reactivex.schedulers.Schedulers
 
 class MeetingService : JobService() {
     companion object {
@@ -32,33 +28,57 @@ class MeetingService : JobService() {
         private const val NEW_MEETING_CHANNEL_ID = "NewMeetingNotificationChannel"
         private const val NEW_MEETING_NOTIFICATION_ID = 313
 
-        private fun createJobInfo(context: Context): JobInfo =
+        private fun createJobInfo(context: Context, isFirstLaunch: Boolean): JobInfo =
             JobInfo.Builder(MEETINGS_JOB_ID, ComponentName(context, MeetingService::class.java))
-                .setPeriodic(REPEAT_MILLIS)
+                .apply {
+                    if (isFirstLaunch) {
+                        setMinimumLatency(0L)
+                        setOverrideDeadline(10000L)
+                    } else {
+                        val residual = 1_000
+                        setMinimumLatency(REPEAT_MILLIS - residual)
+                        setOverrideDeadline(REPEAT_MILLIS + residual)
+                    }
+
+                }
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
                 .setPersisted(true)
                 .build()
 
         fun startService(context: Context) {
             (context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler).apply {
-                if (!allPendingJobs.any { it.id == MEETINGS_JOB_ID })
-                    schedule(createJobInfo(context))
+                if (allPendingJobs.none { it.id == MEETINGS_JOB_ID })
+                    schedule(createJobInfo(context, true))
             }
         }
+
     }
+
 
     override fun onStopJob(p0: JobParameters?): Boolean {
         return false
     }
 
     @SuppressLint("CheckResult")
-    override fun onStartJob(p0: JobParameters?): Boolean {
+    override fun onStartJob(params: JobParameters?): Boolean {
         FirebaseAuth.getInstance()//TODO remove this
             .signInWithEmailAndPassword("mister.rezznik@gmail.com", "123456")
             .addOnCompleteListener {
-                MeetingsRepository.getMeetings().subscribe({
-                    displayNotification(it.size)
-                }, {})
+                MeetingsRepository.getMeetings()
+                    .observeOn(Schedulers.io())
+                    .subscribe({
+                        val diff = it - database.meetingsDao().all()
+                        if (diff.isNotEmpty())
+                            displayNotification(diff.size)
+                        finishJob(params)
+                    }, {
+                        Toast.makeText(
+                            applicationContext?.applicationContext,
+                            it.message, Toast.LENGTH_LONG
+                        )
+                            .show()
+                        finishJob(params)
+                    })
             }
         Toast.makeText(
             applicationContext?.applicationContext,
@@ -67,6 +87,17 @@ class MeetingService : JobService() {
             .show()
 
         return true
+    }
+
+    private fun finishJob(params: JobParameters?) {
+        restart()
+        jobFinished(params, false)
+    }
+
+    private fun restart() {
+        (getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler).schedule(
+            createJobInfo(applicationContext, false)
+        )
     }
 
     private fun displayNotification(new: Int) {

@@ -36,6 +36,15 @@ data class Meeting(
     }, priority)
 
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Meeting
+        return name == other.name
+    }
+
+    override fun hashCode(): Int = name.hashCode()
 }
 
 

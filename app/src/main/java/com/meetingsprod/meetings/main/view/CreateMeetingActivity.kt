@@ -1,11 +1,5 @@
-/*
- Created by Ilya Reznik
- reznikid@altarix.ru
- skype be3bapuahta
- on 16.11.18 19:45
- */
 
-package com.meetingsprod.meetings.main
+package com.meetingsprod.meetings.main.view
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity

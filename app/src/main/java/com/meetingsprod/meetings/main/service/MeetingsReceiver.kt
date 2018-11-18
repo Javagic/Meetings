@@ -1,9 +1,3 @@
-/*
- Created by Ilya Reznik
- reznikid@altarix.ru
- skype be3bapuahta
- on 11.11.18 18:48
- */
 
 package com.meetingsprod.meetings.main.service
 

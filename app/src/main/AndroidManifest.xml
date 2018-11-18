@@ -25,7 +25,8 @@
                 android:permission="android.permission.BIND_JOB_SERVICE"/>
 
 
-        <activity android:name=".main.LoginActivity">
+        <activity android:name=".main.view.LoginActivity"
+                  android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -33,9 +34,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".main.MainActivity"/>
-        <activity android:name=".main.MeetingInfoActivity"/>
-        <activity android:name=".main.CreateMeetingActivity"/>
+        <activity android:name=".main.view.MainActivity"/>
+        <activity android:name=".main.view.MeetingInfoActivity"/>
+        <activity android:name=".main.view.CreateMeetingActivity"/>
     </application>
 
 </manifest>

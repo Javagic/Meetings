@@ -68,7 +68,6 @@
             android:layout_height="wrap_content"
             tools:text="tvEndDate"
             app:layout_constraintTop_toBottomOf="@id/titleEndDate"
-
     />
 
     <TextView
@@ -101,5 +100,18 @@
             android:layout_height="wrap_content"
             tools:text="tvPriority"
             app:layout_constraintTop_toBottomOf="@id/titlePriority"
+    />
+
+    <Button
+            android:id="@+id/btnParticipate"
+            android:text="@string/info_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvPriority"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.95"
+            android:visibility="gone"
     />
 </android.support.constraint.ConstraintLayout>

@@ -1,11 +1,5 @@
-/*
- Created by Ilya Reznik
- reznikid@altarix.ru
- skype be3bapuahta
- on 13.11.18 18:36
- */
 
-package com.meetingsprod.meetings.main
+package com.meetingsprod.meetings.main.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -16,9 +10,13 @@ import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.SearchView
 import android.widget.Toast
+import com.google.firebase.FirebaseNetworkException
 import com.meetingsprod.meetings.R
 import com.meetingsprod.meetings.main.App.Companion.meetingsDao
+import com.meetingsprod.meetings.main.utils.ItemOffsetDecoration
+import com.meetingsprod.meetings.main.utils.MeetingsAdapter
 import com.meetingsprod.meetings.main.api.MeetingsRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -27,7 +25,13 @@ import io.reactivex.disposables.CompositeDisposable
 class MainActivity : AppCompatActivity() {
     private val recyclerView by lazy { findViewById<RecyclerView>(R.id.rvMeetings) }
     private val fabCreate by lazy { findViewById<FloatingActionButton>(R.id.fabCreate) }
-    private val adapter = MeetingsAdapter { MeetingInfoActivity.start(this, it) }
+    private val searchView by lazy { findViewById<SearchView>(R.id.search_view) }
+    private val adapter = MeetingsAdapter {
+        MeetingInfoActivity.start(
+            this,
+            it
+        )
+    }
     private val disposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +43,30 @@ class MainActivity : AppCompatActivity() {
         fabCreate.setOnClickListener {
             startActivity(Intent(this, CreateMeetingActivity::class.java))
         }
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean = true
+
+            override fun onQueryTextChange(query: String?): Boolean {
+                disposable.clear()
+                query?.let {
+                    MeetingsRepository.search(it)
+                        .subscribe({ adapter.data = it.toMutableList() }, this@MainActivity::showErrorToast)
+                }
+                return true
+            }
+        })
     }
+
+    public override fun onStart() {
+        super.onStart()
+        disposable.add(
+            meetingsDao.allFlowable().observeOn(AndroidSchedulers.mainThread()).subscribe {
+                adapter.data = it.toMutableList()
+            }
+        )
+        requestMeetings()
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         MenuInflater(this).inflate(R.menu.main, menu)
@@ -54,28 +81,22 @@ class MainActivity : AppCompatActivity() {
         else -> super.onOptionsItemSelected(item)
     }
 
-    public override fun onStart() {
-        super.onStart()
-        disposable.add(
-            meetingsDao.allFlowable().observeOn(AndroidSchedulers.mainThread()).subscribe {
-                adapter.data = it.toMutableList()
-            }
-        )
-        requestMeetings()
-    }
-
-
     private fun requestMeetings() {
         disposable.add(
-            MeetingsRepository.getMeetings().subscribe({ }, {
-                Toast.makeText(
-                    this,
-                    resources?.getString(R.string.error_connection), Toast.LENGTH_LONG
-                )
-                    .show()
-            })
+            MeetingsRepository.getMeetings().subscribe({ }, this::showErrorToast)
         )
     }
+
+    fun showErrorToast(throwable: Throwable) =
+        Toast.makeText(
+            this,
+            when(throwable){
+                is FirebaseNetworkException -> getString(R.string.error_connection)
+                else-> throwable.message
+            },
+            Toast.LENGTH_LONG
+        )
+            .show()
 
     override fun onStop() {
         super.onStop()

@@ -1,11 +1,5 @@
-/*
- Created by Ilya Reznik
- reznikid@altarix.ru
- skype be3bapuahta
- on 13.11.18 18:49
- */
 
-package com.meetingsprod.meetings.main
+package com.meetingsprod.meetings.main.utils
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -24,7 +18,13 @@ class MeetingsAdapter(val action: (String) -> Unit) : RecyclerView.Adapter<Meeti
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-        ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_meeting, parent, false))
+        ViewHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.item_meeting,
+                parent,
+                false
+            )
+        )
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.bind(data[position])

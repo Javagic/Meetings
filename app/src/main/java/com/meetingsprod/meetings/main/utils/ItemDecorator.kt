@@ -1,11 +1,5 @@
-/*
- Created by Ilya Reznik
- reznikid@altarix.ru
- skype be3bapuahta
- on 15.11.18 20:39
- */
 
-package com.meetingsprod.meetings.main
+package com.meetingsprod.meetings.main.utils
 
 import android.content.Context
 import android.graphics.Rect
