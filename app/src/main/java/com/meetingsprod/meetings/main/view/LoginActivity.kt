@@ -8,6 +8,7 @@ import android.widget.Button
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 import com.meetingsprod.meetings.R
+import com.meetingsprod.meetings.main.service.MAIL
 import com.meetingsprod.meetings.main.utils.PreferenceManager
 
 
@@ -33,7 +34,7 @@ class LoginActivity : AppCompatActivity() {
                     return@setOnClickListener
                 }
             }
-            mAuth.signInWithEmailAndPassword("mister.rezznik@gmail.com", loginField.editText!!.text.toString())
+            mAuth.signInWithEmailAndPassword(MAIL, loginField.editText!!.text.toString())
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
                         startActivity(Intent(this, MainActivity::class.java))
