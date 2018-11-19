@@ -26,7 +26,9 @@
 
 
         <activity android:name=".main.view.LoginActivity"
-                  android:windowSoftInputMode="adjustResize">
+                  android:windowSoftInputMode="adjustResize"
+                  android:launchMode="singleTop"
+        >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -34,9 +36,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".main.view.MainActivity"/>
-        <activity android:name=".main.view.MeetingInfoActivity"/>
-        <activity android:name=".main.view.CreateMeetingActivity"/>
+        <activity android:name=".main.view.MainActivity"
+                  android:launchMode="singleTop"
+        />
+        <activity android:name=".main.view.EditMeetingActivity"
+                  android:launchMode="singleTop"
+        />
     </application>
 
 </manifest>

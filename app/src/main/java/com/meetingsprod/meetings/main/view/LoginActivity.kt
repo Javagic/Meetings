@@ -48,13 +48,11 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    public override fun onStart() {
+
+    override fun onStart() {
         super.onStart()
-//        mAuth.createToken()
-//        // Check if user is signed in (non-null) and update UI accordingly.
-//        val currentUser = mAuth.getCurrentUser()
-//        updateUI(currentUser)
+        if (PreferenceManager.getUserName().isNotBlank()) {
+            startActivity(Intent(this, MainActivity::class.java))
+        }
     }
-
-
 }

@@ -31,8 +31,8 @@ enum class Priority {
 
     companion object {
         fun fromString(str: String) = when (str) {
-            "emergency" -> EMERGENCY
-            "planned" -> PLANNED
+            "EMERGENCY" -> EMERGENCY
+            "PLANNED" -> PLANNED
             else -> MAYBE
         }
     }

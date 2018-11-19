@@ -1,9 +1,10 @@
-
 package com.meetingsprod.meetings.main.api
 
+import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.meetingsprod.meetings.main.App
+import com.meetingsprod.meetings.main.App.Companion.meetingsDao
 import com.meetingsprod.meetings.main.data.pojo.Meeting
 import com.meetingsprod.meetings.main.data.pojo.Member
 import io.reactivex.Completable
@@ -88,6 +89,9 @@ object MeetingsRepository {
                                     .observeOn(Schedulers.io())
                                     .subscribe {
                                         App.database.runInTransaction {
+                                            (meetingsDao.all() - it).forEach {
+                                                meetingsDao.delete(it)
+                                            }
                                             it.forEach {
                                                 App.meetingsDao.insert(it)
                                             }
@@ -95,9 +99,12 @@ object MeetingsRepository {
                                     }
                             }
                             .also { emitter.onSuccess(it) }
-                    }
+                    } else emitter.onError(FirebaseNetworkException("empty list"))
+
                 }
-                .addOnFailureListener { emitter.onError(it) }
+                .addOnFailureListener {
+                    emitter.onError(it)
+                }
         }
     }
 

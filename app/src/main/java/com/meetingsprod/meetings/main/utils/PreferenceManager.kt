@@ -2,6 +2,7 @@ package com.meetingsprod.meetings.main.utils
 
 import android.content.Context
 import com.meetingsprod.meetings.main.App
+import com.meetingsprod.meetings.main.data.pojo.Member
 
 const val AUTH_PREFERENCE = "AUTH_PREFERENCE"
 const val KEY_NAME = "KEY_NAME"
@@ -22,11 +23,19 @@ object PreferenceManager {
             .putString(KEY_POSITION, position)
             .apply()
     }
+
     fun getUserName() =
         App.instance.getSharedPreferences(AUTH_PREFERENCE, Context.MODE_PRIVATE)
-            .getString(KEY_NAME,"")
+            .getString(KEY_NAME, "")
 
     fun getUserPosition() =
         App.instance.getSharedPreferences(AUTH_PREFERENCE, Context.MODE_PRIVATE)
-            .getString(KEY_POSITION,"")
+            .getString(KEY_POSITION, "")
+
+    fun getUser() = Member(getUserName(), getUserPosition())
+
+    fun deleteUser() {
+        saveUserName("")
+        saveUserPosition("")
+    }
 }

@@ -23,5 +23,5 @@ abstract class MeetingsDao {
     abstract fun all(): List<Meeting>
 
     @Query("SELECT * FROM Meetings WHERE name = :name")
-    abstract fun get(name: String): Meeting?
+    abstract fun get(name: String): Meeting
 }

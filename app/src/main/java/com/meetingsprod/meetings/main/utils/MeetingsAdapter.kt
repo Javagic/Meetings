@@ -37,11 +37,12 @@ class MeetingsAdapter(val action: (String) -> Unit) : RecyclerView.Adapter<Meeti
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name = itemView.findViewById<TextView>(R.id.name)
         val startDate = itemView.findViewById<TextView>(R.id.tvStartDate)
+        val endDate = itemView.findViewById<TextView>(R.id.tvEndDate)
 
         fun bind(meeting: Meeting) {
             name.text = itemView.context.getString(R.string.meeting_name, meeting.name)
             startDate.text = itemView.context.getString(R.string.meeting_startDate, meeting.startDate)
-
+            endDate.text = itemView.context.getString(R.string.meeting_startDate, meeting.endDate)
         }
     }
 }

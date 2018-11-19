@@ -16,7 +16,7 @@
                 android:id="@+id/titleName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="name:"
+                android:text="@string/name"
                 app:layout_constraintTop_toTopOf="parent"
         />
 
@@ -35,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/tvName"
-                android:text="Description:"
+                android:text="@string/description"
         />
 
         <EditText
@@ -51,7 +51,7 @@
                 android:id="@+id/titleStartDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="StartDate:"
+                android:text="@string/startdate"
 
                 app:layout_constraintTop_toBottomOf="@id/tvDescription"
 
@@ -69,7 +69,7 @@
                 android:id="@+id/titleEndDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="EndDate:"
+                android:text="@string/enddate"
 
                 app:layout_constraintTop_toBottomOf="@id/tvStartDate"
 
@@ -89,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="tvMembers"
-                android:text="Members:"
+                android:text="@string/members"
 
                 app:layout_constraintTop_toBottomOf="@id/tvEndDate"
         />
@@ -101,35 +101,64 @@
                 app:layout_constraintTop_toBottomOf="@id/titleMembers"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:enabled="false"
         />
         <TextView
                 android:id="@+id/titlePriority"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="tvPriority"
-                android:text="Priority:"
+                android:text="@string/priority"
                 app:layout_constraintTop_toBottomOf="@id/tvMembers"
         />
-        <EditText
-                android:id="@+id/tvPriority"
-                android:layout_width="0dp"
+        <RadioGroup
+                android:id="@+id/groupPriority"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="tvPriority"
                 app:layout_constraintTop_toBottomOf="@id/titlePriority"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-android:text="planned"
-        />
+                android:orientation="horizontal">
+            <RadioButton
+                    android:text="@string/create_maybe"
+                    android:id="@+id/maybe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+            <RadioButton
+                    android:id="@+id/planned"
+                    android:text="@string/create_planned"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+            <RadioButton
+                    android:text="@string/create_emergency"
+                    android:id="@+id/emergency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+            />
+        </RadioGroup>
 
         <Button
-                android:id="@+id/btnCreateNew"
-                android:text="@string/create_button"
+                android:id="@+id/btnParticipate"
+                android:text="@string/info_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvPriority"
-
+                app:layout_constraintTop_toBottomOf="@id/groupPriority"
+                app:layout_constraintVertical_bias="0.95"
+                android:visibility="gone"
+                tools:visibility="visible"
         />
+        <Button
+                android:id="@+id/btnCreateNew"
+                android:text="@string/save_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnParticipate"
+        />
+
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

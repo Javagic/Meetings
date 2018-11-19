@@ -1,4 +1,3 @@
-
 package com.meetingsprod.meetings.main.service
 
 import android.annotation.SuppressLint
@@ -17,8 +16,10 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.meetingsprod.meetings.R
 import com.meetingsprod.meetings.main.App.Companion.database
-import com.meetingsprod.meetings.main.view.MainActivity
 import com.meetingsprod.meetings.main.api.MeetingsRepository
+import com.meetingsprod.meetings.main.view.MainActivity
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class MeetingService : JobService() {
@@ -61,8 +62,8 @@ class MeetingService : JobService() {
 
     @SuppressLint("CheckResult")
     override fun onStartJob(params: JobParameters?): Boolean {
-        FirebaseAuth.getInstance()//TODO remove this
-            .signInWithEmailAndPassword("mister.rezznik@gmail.com", "123456")
+        FirebaseAuth.getInstance()
+            .signInWithEmailAndPassword(MAIL, KEY)
             .addOnCompleteListener {
                 MeetingsRepository.getMeetings()
                     .observeOn(Schedulers.io())
@@ -72,11 +73,15 @@ class MeetingService : JobService() {
                             displayNotification(diff.size)
                         finishJob(params)
                     }, {
-                        Toast.makeText(
-                            applicationContext?.applicationContext,
-                            it.message, Toast.LENGTH_LONG
-                        )
-                            .show()
+                        Observable.fromCallable {
+                            Toast.makeText(
+                                applicationContext?.applicationContext,
+                                it.message, Toast.LENGTH_LONG
+                            )
+                                .show()
+                        }
+                            .subscribeOn(AndroidSchedulers.mainThread())
+                            .subscribe({ }, {})
                         finishJob(params)
                     })
             }
@@ -120,3 +125,6 @@ class MeetingService : JobService() {
         notificationManager.notify(NEW_MEETING_NOTIFICATION_ID, notification)
     }
 }
+
+const val MAIL = "mister.rezznik@gmail.com"
+const val KEY = "123456"
