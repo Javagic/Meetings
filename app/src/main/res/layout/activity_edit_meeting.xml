@@ -49,41 +49,61 @@
         />
         <TextView
                 android:id="@+id/titleStartDate"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/startdate"
-
-                app:layout_constraintTop_toBottomOf="@id/tvDescription"
-
+                app:layout_constraintTop_toBottomOf="@+id/tvDescription"
         />
-        <EditText
-                android:id="@+id/tvStartDate"
+        <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                tools:text="tvStartDate"
                 app:layout_constraintTop_toBottomOf="@id/titleStartDate"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-        />
+                android:focusableInTouchMode="false"
+                android:id="@+id/tvStartDate">
+
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:cursorVisible="false"
+                    android:elevation="20dp"
+                    android:ems="10"
+                    android:outlineProvider="none"
+                    android:inputType="date"
+                    android:focusableInTouchMode="false"
+
+            />
+        </android.support.design.widget.TextInputLayout>
+
         <TextView
                 android:id="@+id/titleEndDate"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/enddate"
-
-                app:layout_constraintTop_toBottomOf="@id/tvStartDate"
-
+                app:layout_constraintTop_toBottomOf="@+id/tvStartDate"
         />
-        <EditText
-                android:id="@+id/tvEndDate"
+
+        <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                tools:text="tvEndDate"
                 app:layout_constraintTop_toBottomOf="@id/titleEndDate"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-        />
+                android:focusableInTouchMode="false"
+                android:id="@+id/tvEndDate">
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:cursorVisible="false"
+                    android:elevation="20dp"
+                    android:ems="10"
+                    android:outlineProvider="none"
+                    android:inputType="date"
+                    android:focusableInTouchMode="false"
 
+            />
+        </android.support.design.widget.TextInputLayout>
         <TextView
                 android:id="@+id/titleMembers"
                 android:layout_width="wrap_content"

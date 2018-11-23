@@ -1,8 +1,10 @@
 package com.meetingsprod.meetings.main.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.TextInputLayout
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -14,19 +16,22 @@ import com.meetingsprod.meetings.main.api.MeetingsRepository
 import com.meetingsprod.meetings.main.api.Priority
 import com.meetingsprod.meetings.main.data.pojo.Meeting
 import com.meetingsprod.meetings.main.data.pojo.Member
-import com.meetingsprod.meetings.main.utils.PreferenceManager
+import com.meetingsprod.meetings.main.utils.*
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 
 const val EXTRA_ID = "MeetingId"
 
-class EditMeetingActivity : AppCompatActivity() {
+class EditMeetingActivity : AppCompatActivity(), DateTimePickerListener {
+
+
     private val tvName by lazy { findViewById<EditText>(R.id.tvName) }
     private val tvDescription by lazy { findViewById<EditText>(R.id.tvDescription) }
-    private val tvStartDate by lazy { findViewById<EditText>(R.id.tvStartDate) }
-    private val tvEndDate by lazy { findViewById<EditText>(R.id.tvEndDate) }
+    private val tvStartDate by lazy { findViewById<TextInputLayout>(R.id.tvStartDate) }
+    private val tvEndDate by lazy { findViewById<TextInputLayout>(R.id.tvEndDate) }
     private val members by lazy { findViewById<EditText>(R.id.tvMembers) }
     private val rbMaybe by lazy { findViewById<RadioButton>(R.id.maybe) }
     private val rbPlanned by lazy { findViewById<RadioButton>(R.id.planned) }
@@ -67,16 +72,28 @@ class EditMeetingActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        if (intent.getStringExtra(EXTRA_ID) != "-1")
+        if (intent.getStringExtra(EXTRA_ID) != "-1") {
             loadInfo()
+        }
+        else {
+            rbMaybe.isChecked = true
+        }
+        tvStartDate.editText!!.setText(dateTimeFormat.format(Date()))
+        tvEndDate.editText!!.setText(dateTimeFormat.format(Date()))
+        tvStartDate.editText!!.setOnClickListener {
+            showDatePickerDialog(this, tvStartDate.editText!!)
+        }
+        tvEndDate.editText!!.setOnClickListener {
+            showDatePickerDialog(this, tvEndDate.editText!!)
+        }
         createBtn.setOnClickListener {
             disposable.add(
                 MeetingsRepository.addDocument(
                     Meeting(
                         name = tvName.text.toString(),
                         description = tvDescription.text.toString(),
-                        startDate = tvStartDate.text.toString(),
-                        endDate = tvEndDate.text.toString(),
+                        startDate = tvStartDate.editText!!.text.toString(),
+                        endDate = tvEndDate.editText!!.text.toString(),
                         members = if (intent.getStringExtra(EXTRA_ID) != "-1") mMembers.toMutableList()
                         else mutableListOf(
                             PreferenceManager.getUser()
@@ -115,7 +132,6 @@ class EditMeetingActivity : AppCompatActivity() {
 
                 }
         }
-
     }
 
     companion object {
@@ -129,8 +145,8 @@ class EditMeetingActivity : AppCompatActivity() {
     fun bind(meeting: Meeting) {
         tvName.setText(meeting.name)
         tvDescription.setText(meeting.description)
-        tvStartDate.setText(meeting.startDate)
-        tvEndDate.setText(meeting.endDate)
+        tvStartDate.editText!!.setText(meeting.startDate)
+        tvEndDate.editText!!.setText(meeting.endDate)
         members.setText(meeting.members.joinToString { it.name })
         mMembers = meeting.members
         when (meeting.priority) {
@@ -149,5 +165,18 @@ class EditMeetingActivity : AppCompatActivity() {
 
     }
 
+    override fun onDateSet(date: Date, editText: EditText) {
+        editText.setText(dateFormat.format(date))
+        showTimePickerDialog(this, editText)
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun onTimeSet(date: Date, editText: EditText) {
+        editText.setText("${editText.text} ${timeFormat.format(date)}")
+    }
+
     var mMembers: List<Member> = ArrayList()
+
+
 }

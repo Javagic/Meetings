@@ -16,7 +16,7 @@ class LoginActivity : AppCompatActivity() {
 
     private val mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
     private val loginBtn by lazy { findViewById<Button>(R.id.loginBtn) }
-    private val loginField by lazy { findViewById<TextInputLayout>(R.id.layoutPassword) }
+    private val passwordField by lazy { findViewById<TextInputLayout>(R.id.layoutPassword) }
     private val usernameField by lazy { findViewById<TextInputLayout>(R.id.layoutUsername) }
     private val positionField by lazy { findViewById<TextInputLayout>(R.id.layoutPosition) }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,14 +34,20 @@ class LoginActivity : AppCompatActivity() {
                     return@setOnClickListener
                 }
             }
-            mAuth.signInWithEmailAndPassword(MAIL, loginField.editText!!.text.toString())
+            passwordField.editText?.text?.toString()?.let {
+                if (it.isBlank()) {
+                    passwordField.error = getString(R.string.error_password)
+                    return@setOnClickListener
+                }
+            }
+            mAuth.signInWithEmailAndPassword(MAIL, passwordField.editText!!.text.toString())
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
                         startActivity(Intent(this, MainActivity::class.java))
                     }
                 }
                 .addOnFailureListener(this) {
-                    loginField.error = when (it) {
+                    passwordField.error = when (it) {
                         is FirebaseNetworkException -> getString(R.string.error_connection)
                         else -> getString(R.string.wrong_password)
                     }

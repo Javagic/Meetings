@@ -10,6 +10,7 @@
     <string name="wrong_password">Wrong password</string>
     <string name="error_connection">Internet connection error</string>
     <string name="error_username">Username must not be empty</string>
+    <string name="error_password">Password must not be empty</string>
     <string name="notification_new_meting">You have new meeting! %1$d</string>
     <string name="notification_content">Tap to view meetings</string>
     <string name="meeting_name">Meeting %1$s</string>
@@ -33,5 +34,8 @@
     <string name="enddate">EndDate:</string>
     <string name="members">Members:</string>
     <string name="priority">Priority:</string>
+    <string name="date_time_format_long_year">dd.MM.yyyy HH:mm</string>
+    <string name="date_format">dd.MM.yyyy</string>
+    <string name="time_format">HH:mm</string>
 
 </resources>

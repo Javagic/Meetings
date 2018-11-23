@@ -13,11 +13,10 @@ import com.google.firebase.FirebaseNetworkException
 import com.meetingsprod.meetings.R
 import com.meetingsprod.meetings.main.App.Companion.meetingsDao
 import com.meetingsprod.meetings.main.api.MeetingsRepository
-import com.meetingsprod.meetings.main.utils.ItemOffsetDecoration
-import com.meetingsprod.meetings.main.utils.MeetingsAdapter
-import com.meetingsprod.meetings.main.utils.PreferenceManager
+import com.meetingsprod.meetings.main.utils.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -58,9 +57,11 @@ class MainActivity : AppCompatActivity() {
     public override fun onStart() {
         super.onStart()
         disposable.add(
-            meetingsDao.allFlowable().observeOn(AndroidSchedulers.mainThread()).subscribe {
-                adapter.data = it.toMutableList()
-            }
+            meetingsDao.allFlowable().observeOn(AndroidSchedulers.mainThread())
+                .map { it.filter { isToday(dateTimeFormat.parseOrNull(it.startDate) ?: Date(0)) } }
+                .subscribe {
+                    adapter.data = it.toMutableList()
+                }
         )
         requestMeetings()
     }
@@ -104,5 +105,11 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         PreferenceManager.deleteUser()
         super.onBackPressed()
+    }
+
+    private fun isToday(date: Date): Boolean {
+        val today = Calendar.getInstance()
+        val other = Calendar.getInstance().apply { time = date }
+        return other.get(Calendar.DATE) == today.get(Calendar.DATE)
     }
 }

@@ -42,7 +42,7 @@ class MeetingsAdapter(val action: (String) -> Unit) : RecyclerView.Adapter<Meeti
         fun bind(meeting: Meeting) {
             name.text = itemView.context.getString(R.string.meeting_name, meeting.name)
             startDate.text = itemView.context.getString(R.string.meeting_startDate, meeting.startDate)
-            endDate.text = itemView.context.getString(R.string.meeting_startDate, meeting.endDate)
+            endDate.text = itemView.context.getString(R.string.meeting_endDate, meeting.endDate)
         }
     }
 }
