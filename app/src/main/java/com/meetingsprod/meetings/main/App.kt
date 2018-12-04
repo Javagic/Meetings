@@ -2,6 +2,7 @@ package com.meetingsprod.meetings.main
 
 import android.app.Application
 import android.arch.persistence.room.Room
+import com.google.firebase.FirebaseApp
 import com.meetingsprod.meetings.main.data.db.MeetingsDao
 import com.meetingsprod.meetings.main.data.db.MeetingsDatabase
 import com.meetingsprod.meetings.main.service.MeetingService
@@ -20,6 +21,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        FirebaseApp.initializeApp(this)
         instance = this
         database = Room.databaseBuilder(
             this,
