@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.SearchView
 import android.widget.Toast
 import com.google.firebase.FirebaseNetworkException
@@ -16,6 +17,7 @@ import com.meetingsprod.meetings.main.api.MeetingsRepository
 import com.meetingsprod.meetings.main.utils.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 
@@ -60,6 +62,7 @@ class MainActivity : AppCompatActivity() {
             meetingsDao.allFlowable().observeOn(AndroidSchedulers.mainThread())
                 .map { it.filter { isToday(dateTimeFormat.parseOrNull(it.startDate) ?: Date(0)) } }
                 .subscribe {
+                    tvNoMeetings.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
                     adapter.data = it.toMutableList()
                 }
         )
@@ -81,9 +84,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun requestMeetings() {
-        disposable.add(
-            MeetingsRepository.getMeetings().subscribe({ }, this::showErrorToast)
-        )
+        disposable.add(MeetingsRepository.getMeetings().subscribe({ }, this::showErrorToast))
     }
 
     fun showErrorToast(throwable: Throwable) =

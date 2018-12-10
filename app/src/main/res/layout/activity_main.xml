@@ -11,6 +11,17 @@
             app:layout_constraintTop_toTopOf="parent"
     />
 
+    <TextView
+            android:id="@+id/tvNoMeetings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/no_meetings"
+            android:textSize="20sp"
+    />
     <android.support.v7.widget.RecyclerView
             android:id="@+id/rvMeetings"
             android:layout_width="match_parent"

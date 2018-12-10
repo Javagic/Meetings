@@ -126,5 +126,5 @@ class MeetingService : JobService() {
     }
 }
 
-const val MAIL = "zufar.sunagatov@gmail.com"
+const val MAIL = "kalachyand@gmail.com"
 const val KEY = "123456"
