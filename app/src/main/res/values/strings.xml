@@ -38,5 +38,9 @@
     <string name="date_format">dd.MM.yyyy</string>
     <string name="time_format">HH:mm</string>
     <string name="no_meetings">There is no meetings for today</string>
+    <string name="add_audio">Add audio</string>
+    <string name="recording">Recording…</string>
+    <string name="play">Play</string>
+    <string name="need_permission">Need permissions</string>
 
 </resources>

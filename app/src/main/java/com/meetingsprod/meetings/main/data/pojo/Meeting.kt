@@ -17,7 +17,8 @@ data class Meeting(
     var startDate: String = "",
     var endDate: String = "",
     var members: MutableList<Member> = ArrayList(),
-    var priority: Priority = Priority.MAYBE
+    var priority: Priority = Priority.MAYBE,
+    var audioPath: String = ""
 ) {
 
     fun toMap() =
@@ -28,6 +29,7 @@ data class Meeting(
             put("endDate", endDate)
             put("members", Gson().toJson(members))
             put("priority", priority.toString())
+            put("audio", audioPath)
         }
 
 

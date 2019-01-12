@@ -1,4 +1,3 @@
-
 package com.meetingsprod.meetings.main.api
 
 import com.google.gson.Gson
@@ -11,7 +10,8 @@ data class MeetingApiResponse(
     var startDate: String = "",
     var endDate: String = "",
     var members: String? = "",
-    var priority: String? = ""
+    var priority: String? = "",
+    var audio: String? = ""
 ) {
 
     fun toDataClass() = Meeting(
@@ -20,7 +20,8 @@ data class MeetingApiResponse(
         startDate,
         endDate,
         members?.let { Gson().fromJson(members, Array<Member>::class.java)?.toMutableList() } ?: mutableListOf(),
-        priority?.let { Priority.fromString(it) }?:Priority.PLANNED
+        priority?.let { Priority.fromString(it) } ?: Priority.PLANNED,
+        audio ?: ""
     )
 }
 

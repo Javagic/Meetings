@@ -159,6 +159,15 @@
         </RadioGroup>
 
         <Button
+                android:id="@+id/btnAudio"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/add_audio"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/groupPriority"
+        />
+        <Button
                 android:layout_marginTop="20dp"
                 android:id="@+id/btnParticipate"
                 android:text="@string/info_button"
@@ -166,11 +175,12 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/groupPriority"
+                app:layout_constraintTop_toBottomOf="@id/btnAudio"
                 app:layout_constraintVertical_bias="0.95"
                 android:visibility="gone"
                 tools:visibility="visible"
         />
+
         <Button
                 android:id="@+id/btnCreateNew"
                 android:text="@string/save_button"
